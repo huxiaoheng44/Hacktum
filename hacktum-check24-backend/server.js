@@ -6,7 +6,7 @@ const api = require("./api.js");
 
 const {
   getMappedCraftsman,
-  patchMappedCraftman,
+  patchMappedCraftsman,
   getCraftsmen,
   updateCraftsman,
 } = require("./craftsmen-service");
@@ -52,7 +52,7 @@ app.get("/craftsmen", async (req, res) => {
   const totalPages = Math.ceil(craftsmen.length / pageSize);
 
   return res.send({
-    craftsmen: paginatedCraftsmen.map(getMappedCraftsman),
+    craftsmen: paginatedCraftsmen, //.map(getMappedCraftsman),
     totalPage: totalPages,
   });
 });
@@ -77,7 +77,7 @@ app.patch("/craftman/:id", async (req, res) => {
 
     res.send({
       id: id,
-      updated: updatedCraftsman,
+      updated: patchMappedCraftsman(updatedCraftsman),
     });
   } catch (error) {
     console.error("Error updating data:", error);

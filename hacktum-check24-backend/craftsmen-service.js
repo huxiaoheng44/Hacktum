@@ -36,9 +36,9 @@ const getMappedCraftsman = (craftsman) => ({
 });
 
 const patchMappedCraftsman = (craftsman) => ({
-  maxDrivingDistance: craftsman.maxDrivingDistance,
-  profilePictureScore: craftsman.profilePictureScore,
-  profileDescriptionScore: craftsman.profileDescriptionScore,
+  maxDrivingDistance: craftsman.max_driving_distance,
+  profilePictureScore: craftsman.profile_picture_score,
+  profileDescriptionScore: craftsman.profile_description_score,
 });
 
 const getCraftsmen = async (postalCode, page, pageSize) => {
@@ -77,38 +77,37 @@ const updateCraftsman = async (
   craftsmanId,
   { maxDrivingDistance, profilePictureScore, profileDescriptionScore }
 ) => {
-  //   const client = await getDatabaseClient();
+  const client = await getDatabaseClient();
 
-  //   const updateFields = [];
-  //   const params = [];
+  const updateFields = [];
 
-  //   if (maxDrivingDistance !== undefined) {
-  //     updateFields.push(
-  //       `${COLUMNS_MAX_DRIVING_DISTANCE} = ${maxDrivingDistance}`
-  //     );
-  //   }
+  if (maxDrivingDistance !== undefined) {
+    updateFields.push(
+      `${COLUMNS_MAX_DRIVING_DISTANCE} = ${maxDrivingDistance}`
+    );
+  }
 
-  //   if (profilePictureScore !== undefined) {
-  //     updateFields.push(
-  //       `${COLUMNS_PROFILE_PICTURE_SCORE} = ${profilePictureScore}`
-  //     );
-  //   }
+  if (profilePictureScore !== undefined) {
+    updateFields.push(
+      `${COLUMNS_PROFILE_PICTURE_SCORE} = ${profilePictureScore}`
+    );
+  }
 
-  //   if (profileDescriptionScore !== undefined) {
-  //     updateFields.push(
-  //       `${COLUMNS_PROFILE_DESCRIPTION_SCORE} = ${profileDescriptionScore}`
-  //     );
-  //   }
+  if (profileDescriptionScore !== undefined) {
+    updateFields.push(
+      `${COLUMNS_PROFILE_DESCRIPTION_SCORE} = ${profileDescriptionScore}`
+    );
+  }
 
-  //   const result = await client.query(
-  //     `UPDATE ${TABLENAME} SET ${updateFields.join(
-  //       ", "
-  //     )} WHERE ${COLUMNS_ID}=${craftsmanId} RETURNING *;`
-  //   );
+  const result = await client.query(
+    `UPDATE ${TABLENAME_CRAFTMAN} SET ${updateFields.join(
+      ", "
+    )} WHERE ${COLUMNS_ID}=${craftsmanId} RETURNING *;`
+  );
 
-  //   client.release();
+  client.release();
 
-  return mockUpdatedData; //result.rows[0];
+  return result.rows[0];
 };
 
 module.exports = {
