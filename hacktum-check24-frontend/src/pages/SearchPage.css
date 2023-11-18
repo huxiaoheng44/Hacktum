@@ -1,0 +1,73 @@
+.search-page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+  }
+  
+  .search-header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+  
+  .search-question {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+  
+  .search-input-container {
+    position: relative;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+  
+  .search-input-field {
+    width: calc(100% - 20px); /* subtract padding */
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #d4d4d4;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  .clear-search {
+    position: absolute;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #007BFF;
+    font-size: 16px;
+  }
+  
+  .search-button-container {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+  
+  .search-submit-button {
+    width: 100%;
+    background-color: #007BFF;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .search-submit-button:hover {
+    background-color: #0056b3;
+  }
+  

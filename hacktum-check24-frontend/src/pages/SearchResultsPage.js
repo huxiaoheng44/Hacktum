@@ -1,19 +1,53 @@
-import React from "react";
-import { useLocation } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
+import baseURL from "../config";
 
 function SearchResultsPage() {
-  let location = useLocation();
+  const [searchParams] = useSearchParams();
+  const [results, setResults] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  function getSearchQuery() {
-    const params = new URLSearchParams(location.search);
-    return params.get("query");
+  useEffect(() => {
+    const query = searchParams.get("query");
+    if (query) {
+      fetchResults(query);
+    }
+  }, [searchParams]);
+
+  const fetchResults = (query) => {
+    setLoading(true);
+    fetch(`${baseURL}/api/search?query=${encodeURIComponent(query)}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setResults(data);
+      })
+      .catch((error) => {
+        setError(error.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
   }
 
-  const searchQuery = getSearchQuery();
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <div>
-      <h1>Search Results for "{searchQuery}"</h1>
+      {results.map((result, index) => (
+        <div key={index}>{result.title}</div>
+      ))}
     </div>
   );
 }
