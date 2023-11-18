@@ -3,7 +3,7 @@ const router = express.Router();
 // const Message = require("./models/message"); // Assuming you have a model called Message
 
 // Search endpoint
-router.get("/search", async (req, res) => {
+router.get("/craftsmen", async (req, res) => {
   try {
     const searchQuery = req.query.query; // Get the search term from the query string
     if (!searchQuery) {

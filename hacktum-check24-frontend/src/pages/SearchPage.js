@@ -22,11 +22,10 @@ function SearchPage() {
   return (
     <div className="search-page-container">
       <div className="search-header">
-        <h1>Türen & Fenster lackieren</h1>
-        <p>0 %</p>
+        <div className="app-title">CHECK24 Craftsmen Comparison</div>
       </div>
       <div className="search-question">
-        <p>In welcher PLZ suchen Sie einen Maler?</p>
+        <p>In which zip code are you looking for a painter?</p>
       </div>
       <div className="search-input-container">
         <input
@@ -42,7 +41,7 @@ function SearchPage() {
       </div>
       <div className="search-button-container">
         <button className="search-submit-button" onClick={handleSearch}>
-          weiter
+          Search
         </button>
       </div>
     </div>

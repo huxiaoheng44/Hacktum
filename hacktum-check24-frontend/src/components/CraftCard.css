@@ -1,0 +1,157 @@
+.craftCard-container {
+  border: 2px solid #4169E1; 
+  border-radius: 15px; 
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding: 0 30px;
+}
+
+.craftCard-header {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0 20px;
+  border: 0 15px;
+}
+
+.text-info{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+
+}
+.craftCard-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-right: 16px;
+}
+
+.craftCard-info {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+  padding-left: 25px;
+}
+
+.craftCard-name {
+  font-size: 20px;
+  font-weight: bold;
+  color: #0056b3;
+}
+
+.small-title {
+  font-size: 14px;
+  font-weight: bold;
+  color: #0056b3;
+}
+
+.rank-score {
+  font-size: 14px;
+  font-weight: bold;
+  color: #007BFF;
+  padding: 0 10px;
+}
+
+.craftCard-bookings {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.craftCard-rank {
+  margin-top: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 12px;
+  color: gray;
+}
+
+.craftCard-details {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-left: 25px;
+  font-size: 0.8em;
+}
+
+.craftCard-distance {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.distance-number {
+  font-size: 14px;
+  font-weight: bold;
+  color: #007BFF;
+  padding: 0 10px;
+
+}
+
+.craftCard-button {
+  margin-top: 20px;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.craftCard-button:hover {
+  background-color: #0056b3;
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  width: 80%;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+
+  display: flex; 
+  flex-direction: column;
+  justify-content: center; 
+  align-items: center; 
+}
+
+
+
+
+.timeslot-choose-button-container {
+  display: flex; 
+  justify-content: space-around;
+  width: 100%; 
+}
+
+.success-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

@@ -10,16 +10,26 @@
   
   .search-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     width: 100%;
     padding: 10px;
     box-sizing: border-box;
+  }
+
+  .app-title {
+    font-size: 35px;
+    font-weight: bold;
+    color: #0056b3;
+    margin: 20px;
+    text-align: center;
   }
   
   .search-question {
     width: 100%;
     padding: 10px;
     box-sizing: border-box;
+    font-weight: bold;
+    color: #0056b3;
   }
   
   .search-input-container {
@@ -30,13 +40,20 @@
   }
   
   .search-input-field {
-    width: calc(100% - 20px); /* subtract padding */
+    width: calc(100% - 20px); 
     padding: 10px;
     margin-bottom: 20px;
-    border: 1px solid #d4d4d4;
+    border: 2px solid #007BFF;
     border-radius: 4px;
     font-size: 16px;
   }
+
+  .search-input-field:focus {
+    border: 2px solid #0056b3;
+    outline: none;
+  }
+
+
   
   .clear-search {
     position: absolute;
@@ -53,6 +70,8 @@
   .search-button-container {
     width: 100%;
     padding: 10px;
+    display: flex;
+    justify-content: center;
     box-sizing: border-box;
   }
   
@@ -65,6 +84,7 @@
     border-radius: 4px;
     font-size: 16px;
     cursor: pointer;
+    max-width: 600px;
   }
   
   .search-submit-button:hover {

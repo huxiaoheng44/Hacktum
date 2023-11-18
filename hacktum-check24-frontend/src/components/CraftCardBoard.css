@@ -1,0 +1,19 @@
+.craftBoard-container {
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.gridlayout {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    width: 90%;
+    height: 90%;
+}
+
+
+
+  
