@@ -7,11 +7,11 @@ const { Pool } = require("pg");
 // });
 
 const pool = new Pool({
-  user: "postgres",
-  host: "localhost",
-  database: "local_db",
-  password: "",
-  port: 5433, // Default PostgreSQL port
+  user: process.env["DB_USER"],
+  host: process.env["DB_HOST"],
+  database: process.env["DB_NAME"],
+  password: process.env["DB_PASSWORD"],
+  port: process.env["DB_PORT"], // Default PostgreSQL port
 });
 
 const getDatabaseClient = async () => await pool.connect();
