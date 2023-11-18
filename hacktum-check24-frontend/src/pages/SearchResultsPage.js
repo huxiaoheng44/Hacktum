@@ -9,6 +9,7 @@ function SearchResultsPage() {
   const [craftsmen, setCraftsmen] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const query = searchParams.get("query");
@@ -19,7 +20,11 @@ function SearchResultsPage() {
 
   const fetchResults = (query) => {
     setLoading(true);
-    fetch(`${baseURL}/craftsmen?postalcode=${encodeURIComponent(query)}`)
+    fetch(
+      `${baseURL}/craftsmen?postalcode=${encodeURIComponent(
+        query
+      )}&page=${currentPage}`
+    )
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");

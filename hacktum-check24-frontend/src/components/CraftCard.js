@@ -3,6 +3,9 @@ import React, { useState, useEffect } from "react";
 import TimeSlotPicker from "./TimeSlotPicker";
 
 const CraftCard = (props) => {
+  const [avatarFilename] = useState(() => randomAvatar());
+  const [selectedDate, setSelectedDate] = useState("20,Oct");
+
   const handleConfirmClick = () => {
     props.onCloseModal();
     const SuccessModalContent = (
@@ -16,8 +19,13 @@ const CraftCard = (props) => {
     props.onShowModal(SuccessModalContent);
   };
 
-  const [avatarFilename] = useState(() => randomAvatar());
   const avatarSrc = `${process.env.PUBLIC_URL}/craftsmen-avatar/${avatarFilename}`;
+
+  const handleDateSelect = (date) => {
+    const newDate = date;
+    setSelectedDate(newDate);
+    console.log("Selected date:", newDate);
+  };
 
   const handleTimeSelect = (time) => {
     console.log(time);
@@ -25,6 +33,27 @@ const CraftCard = (props) => {
 
   const modalContent = (
     <div className="modal">
+      <div className="timeslot-choose-date">
+        <button
+          className={`timeslot ${selectedDate === "20,Oct" ? "selected" : ""}`}
+          onClick={() => handleDateSelect("20,Oct")}
+        >
+          20,Oct
+        </button>
+        <button
+          className={`timeslot ${selectedDate === "21,Oct" ? "selected" : ""}`}
+          onClick={() => handleDateSelect("21,Oct")}
+        >
+          21,Oct
+        </button>
+        <button
+          className={`timeslot ${selectedDate === "22,Oct" ? "selected" : ""}`}
+          onClick={() => handleDateSelect("22,Oct")}
+        >
+          22,Oct
+        </button>
+      </div>
+
       <div className="timeslot-choose-container">
         <TimeSlotPicker onTimeSelect={handleTimeSelect} />
       </div>

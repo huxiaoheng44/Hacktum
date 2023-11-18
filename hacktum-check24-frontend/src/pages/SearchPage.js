@@ -4,6 +4,8 @@ import "./SearchPage.css";
 
 function SearchPage() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [modalContent, setModalContent] = useState("");
   const navigate = useNavigate();
 
   const handleSearch = () => {
@@ -11,12 +13,18 @@ function SearchPage() {
     const postCodePattern = /^[0-9]{5}$/;
 
     if (!trimmedQuery) {
-      alert("Please enter a post code.");
+      setModalContent("Please enter a post code.");
+      setIsModalVisible(true);
     } else if (!postCodePattern.test(trimmedQuery)) {
-      alert("Please enter a valid post code.");
+      setModalContent("Please enter a valid post code.");
+      setIsModalVisible(true);
     } else {
       navigate(`/results?query=${encodeURIComponent(trimmedQuery)}`);
     }
+  };
+
+  const handleCloseModal = () => {
+    setIsModalVisible(false);
   };
 
   return (
@@ -35,15 +43,21 @@ function SearchPage() {
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Your Post Code"
         />
-        {/* <button className="clear-search" onClick={() => setSearchQuery("")}>
-          X
-        </button> */}
       </div>
       <div className="search-button-container">
         <button className="search-submit-button" onClick={handleSearch}>
           Search
         </button>
       </div>
+
+      {isModalVisible && (
+        <div className="alert-modal">
+          <div className="alert-text">{modalContent}</div>
+          <button className="craftCard-button" onClick={handleCloseModal}>
+            OK
+          </button>
+        </div>
+      )}
     </div>
   );
 }
