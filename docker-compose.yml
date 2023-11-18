@@ -16,6 +16,7 @@ services:
       - DB_PASSWORD=$POSTGRES_PASSWORD
       - DB_PORT=$POSTGRES_HOST_PORT
       - DB_USER=$DB_USER
+      - SERVER_PORT=$NODE_CONTAINER_PORT
     ports:
       - $NODE_HOST_PORT:$NODE_CONTAINER_PORT
     depends_on:

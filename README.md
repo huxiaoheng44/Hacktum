@@ -6,3 +6,8 @@ under current folder
 ```
 docker compose up
 ```
+
+react:localhost:3000
+backend localhost:3001
+db port 5432
+
