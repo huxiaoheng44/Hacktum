@@ -9,7 +9,7 @@ const COLUMNS_PROFILE_DESCRIPTION_SCORE = "profile_description_score";
 const getMappedCraftsman = (craftsman) => ({
   id: craftsman.id,
   name: `${craftsman.first_name} ${craftsman.last_name}`,
-  rankingScore: craftsman.ranking_score,
+  rankingScore: craftsman.distance,
 });
 
 const patchMappedCraftsman = (craftsman) => ({
@@ -50,16 +50,22 @@ const mockUpdatedData = {
 };
 
 const getCraftsmen = async (postalCode) => {
-  //   const client = await getDatabaseClient();
+  const client = await getDatabaseClient();
 
-  //   const query = "SELECT * FROM table_name";
+  const query = "SELECT * FROM craftman";
 
-  //   const result = await client.query(query);
-  // di
-  //rankin
-  //   client.release();
+  const result = await client.query(query);
 
-  return mockCraftsmen; //result.rows;
+  result.rows.forEach((row) => {
+    const newPropertyValue = 10; // Replace "yourFunction" with your actual function
+    row.distance = newPropertyValue;
+  });
+
+  result.rows.filter((row) => row.id < 10);
+
+  client.release();
+
+  return result.rows; //mockCraftsmen; //result.rows;
 };
 
 const updateCraftsman = async (
