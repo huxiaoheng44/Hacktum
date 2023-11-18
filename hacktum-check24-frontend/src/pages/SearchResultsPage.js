@@ -9,6 +9,7 @@ function SearchResultsPage() {
   const [craftsmen, setCraftsmen] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [pagesData, setPagesData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
@@ -33,7 +34,11 @@ function SearchResultsPage() {
       })
       .then((data) => {
         console.log(data);
-        setCraftsmen(data.craftsmen.craftsmen);
+        setPagesData((prevPagesData) => [
+          ...prevPagesData,
+          data.craftsmen.craftsmen,
+        ]);
+        //setCraftsmen(data.craftsmen.craftsmen);
       })
       .catch((error) => {
         setError(error.message);
@@ -50,6 +55,10 @@ function SearchResultsPage() {
   // if (error) {
   //   return <div>Error: {error}</div>;
   // }
+
+  const handleLoadMore = () => {
+    setCurrentPage((currentPage) => currentPage + 1);
+  };
 
   return (
     <div className="resultpage-container">
@@ -69,10 +78,17 @@ function SearchResultsPage() {
           <button id="ratingFilter">Rating</button>
         </div> */}
       </div>
-      <div className="search-result-container">
+      {pagesData.map((craftsmenData, index) => (
+        <div key={index} className="search-result-container">
+          <CraftcardBoard craftsmen={craftsmenData} />
+        </div>
+      ))}
+      {/* <div className="search-result-container">
         <CraftcardBoard craftsmen={craftsmen} />
+      </div> */}
+      <div className="load-more" onClick={handleLoadMore}>
+        Load More
       </div>
-      <div className="load-more">Load More</div>
     </div>
   );
 }
