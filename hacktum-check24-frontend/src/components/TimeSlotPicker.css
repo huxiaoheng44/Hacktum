@@ -1,0 +1,30 @@
+.timeslot-picker {
+    display: flex;
+    flex-direction: row; 
+    flex-wrap: wrap; 
+    justify-content: center;
+    align-items: center; 
+    padding: 10px; 
+    max-height: 100vh; 
+    overflow-y: auto; 
+}
+
+  
+.timeslot {
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid #ccc;
+    background-color: #f8f8f8;
+    cursor: pointer;
+}
+
+.timeslot.unavailable {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.timeslot.selected {
+    background-color: #0056b3;
+    color: white;
+}
+  

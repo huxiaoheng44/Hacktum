@@ -4,6 +4,8 @@ import "./SearchPage.css";
 
 function SearchPage() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [modalContent, setModalContent] = useState("");
   const navigate = useNavigate();
 
   const handleSearch = () => {
@@ -11,22 +13,27 @@ function SearchPage() {
     const postCodePattern = /^[0-9]{5}$/;
 
     if (!trimmedQuery) {
-      alert("Please enter a post code.");
+      setModalContent("Please enter a post code.");
+      setIsModalVisible(true);
     } else if (!postCodePattern.test(trimmedQuery)) {
-      alert("Please enter a valid post code.");
+      setModalContent("Please enter a valid post code.");
+      setIsModalVisible(true);
     } else {
       navigate(`/results?query=${encodeURIComponent(trimmedQuery)}`);
     }
   };
 
+  const handleCloseModal = () => {
+    setIsModalVisible(false);
+  };
+
   return (
     <div className="search-page-container">
       <div className="search-header">
-        <h1>Türen & Fenster lackieren</h1>
-        <p>0 %</p>
+        <div className="app-title">CHECK24 Craftsmen Comparison</div>
       </div>
       <div className="search-question">
-        <p>In welcher PLZ suchen Sie einen Maler?</p>
+        <p>In which zip code are you looking for a painter?</p>
       </div>
       <div className="search-input-container">
         <input
@@ -36,15 +43,21 @@ function SearchPage() {
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Your Post Code"
         />
-        {/* <button className="clear-search" onClick={() => setSearchQuery("")}>
-          X
-        </button> */}
       </div>
       <div className="search-button-container">
         <button className="search-submit-button" onClick={handleSearch}>
-          weiter
+          Search
         </button>
       </div>
+
+      {isModalVisible && (
+        <div className="alert-modal">
+          <div className="alert-text">{modalContent}</div>
+          <button className="craftCard-button" onClick={handleCloseModal}>
+            OK
+          </button>
+        </div>
+      )}
     </div>
   );
 }
