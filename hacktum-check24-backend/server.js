@@ -62,19 +62,16 @@ app.get("/craftsmen", async (req, res) => {
       {
         id: 1,
         name: "Leon Ramos",
-        postalCode: "80686",
         rankingScore: "5.46",
       },
       {
         id: 2,
         name: "Constant Woolery",
-        postalCode: "80687",
         rankingScore: "3.27",
       },
       {
         id: 3,
         name: "Eva Malone",
-        postalCode: "80689",
         rankingScore: "4.43",
       },
     ],
@@ -83,6 +80,44 @@ app.get("/craftsmen", async (req, res) => {
   return res.send({
     craftsmen: rankedCraftsmen, //craftsmen.map(getMappedCraftsman),
   });
+});
+
+app.patch("/craftman/:id", async (req, res) => {
+  // ideally should be validated & sanitzed.
+  try {
+    const id = req.params.id;
+
+    // Update data in MongoDB using Mongoose
+    // const updatedData = await DataModel.findByIdAndUpdate(
+    //   id,
+    //   { $set: updateFields }, // Update the fields provided in the request body
+    //   { new: true } // Return the modified document
+    // );
+
+    const updatedData = {
+      id: 4,
+      first_name: "Hazel",
+      last_name: "Monahan",
+      city: "Lakeshatown",
+      street: "Justa Junction",
+      house_number: "1",
+      lon: 10.00262,
+      lat: 53.64893,
+      max_driving_distance: 33000,
+    };
+
+    // if (!updatedData) {
+    //   return res.status(404).json({ error: "Data not found" });
+    // }
+
+    res.send({
+      id: id,
+      updated: updatedData,
+    });
+  } catch (error) {
+    console.error("Error updating data in MongoDB:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 // start the server
