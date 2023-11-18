@@ -1,10 +1,33 @@
 const { getDatabaseClient } = require("./database-client");
+const {
+  calcaulateDistance,
+  isWithinRange,
+  calcaulateRank,
+} = require("./ranking.js");
 
-const TABLENAME = "craftsmen";
+const TABLENAME_CRAFTMAN = "craftman";
+const TABLENAME_POSTCODE = "postcodes";
 const COLUMNS_ID = "id";
+const COLUMNS_POSTALCODE = "postcode";
+const COLUMNS_GROUP = "postcode_extension_distance_group";
 const COLUMNS_MAX_DRIVING_DISTANCE = "max_driving_distance";
 const COLUMNS_PROFILE_PICTURE_SCORE = "profile_picture_score";
 const COLUMNS_PROFILE_DESCRIPTION_SCORE = "profile_description_score";
+
+const craftman = (item) => ({
+  lon: Number(item.lon),
+  lat: Number(item.lat),
+  distance: Number(item.distance),
+  maxDrivingDistance: Number(item.max_driving_distance),
+  descScore: item.profile_description_score,
+  picScore: item.profile_picture_score,
+});
+
+const getMappedPostcode = (postcode) => ({
+  lon: Number(postcode.lon),
+  lat: Number(postcode.lat),
+  group: postcode.postcode_extension_distance_group,
+});
 
 const getMappedCraftsman = (craftsman) => ({
   id: craftsman.id,
@@ -18,54 +41,36 @@ const patchMappedCraftsman = (craftsman) => ({
   profileDescriptionScore: craftsman.profileDescriptionScore,
 });
 
-const mockCraftsmen = [
-  {
-    id: 1,
-    first_name: "Gennie",
-    last_name: "Luettgen",
-    city: "West Claretta",
-    street: "Jon Manor",
-    house_number: "20",
-    lon: 7.01926,
-    lat: 50.89849,
-    max_driving_distance: 97000,
-  },
-  {
-    id: 2,
-    first_name: "Jaymie",
-    last_name: "Rogahn",
-    city: "Lucaschester",
-    street: "Zemlak Row",
-    house_number: "101",
-    lon: 13.37789,
-    lat: 52.56637,
-    max_driving_distance: 92000,
-  },
-];
-
-const mockUpdatedData = {
-  maxDrivingDistance: 3000,
-  profilePictureScore: 2000,
-  profileDescriptionScore: 1000,
-};
-
-const getCraftsmen = async (postalCode) => {
+const getCraftsmen = async (postalCode, page, pageSize) => {
   const client = await getDatabaseClient();
 
-  const query = "SELECT * FROM craftman";
+  let result = await client.query(`SELECT * FROM ${TABLENAME_CRAFTMAN}`);
 
-  const result = await client.query(query);
-
-  result.rows.forEach((row) => {
-    const newPropertyValue = 10; // Replace "yourFunction" with your actual function
-    row.distance = newPropertyValue;
-  });
-
-  result.rows.filter((row) => row.id < 10);
+  const postalCodeData = await client.query(
+    `SELECT lon, lat, ${COLUMNS_GROUP} FROM ${TABLENAME_POSTCODE} WHERE ${COLUMNS_POSTALCODE}='${postalCode}';`
+  );
 
   client.release();
 
-  return result.rows; //mockCraftsmen; //result.rows;
+  postcode = getMappedPostcode(postalCodeData.rows[0]);
+
+  result.rows.forEach((row) => {
+    const distance = calcaulateDistance(craftman(row), postcode);
+    row.distance = distance;
+  });
+
+  let validResult = result.rows.filter((row) =>
+    isWithinRange(craftman(row), postcode)
+  );
+
+  validResult.forEach((row) => {
+    const rank = calcaulateRank(craftman(row));
+    row.rank = rank;
+  });
+
+  sortedResult = validResult.sort(({ rank: a }, { rank: b }) => b - a);
+
+  return sortedResult;
 };
 
 const updateCraftsman = async (

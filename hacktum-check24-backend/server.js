@@ -42,11 +42,18 @@ app.use((err, req, res, next) => {
 
 app.get("/craftsmen", async (req, res) => {
   const { postalcode } = req.query;
+  const page = parseInt(req.query.page) || 1;
+  const pageSize = 20;
+  const startIndex = (page - 1) * pageSize;
+  const endIndex = page * pageSize;
 
-  const craftsmen = await getCraftsmen(postalcode);
+  const craftsmen = await getCraftsmen(postalcode, page, pageSize);
+  const paginatedCraftsmen = craftsmen.slice(startIndex, endIndex);
+  const totalPages = Math.ceil(craftsmen.length / pageSize);
 
   return res.send({
-    craftsmen: craftsmen.map(getMappedCraftsman), //craftsmen.map(getMappedCraftsman),
+    craftsmen: paginatedCraftsmen.map(getMappedCraftsman),
+    totalPage: totalPages,
   });
 });
 
