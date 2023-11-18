@@ -21,37 +21,28 @@ const CraftCard = (props) => {
 
   const avatarSrc = `${process.env.PUBLIC_URL}/craftsmen-avatar/${avatarFilename}`;
 
-  const handleDateSelect = (date) => {
-    const newDate = date;
-    setSelectedDate(newDate);
-    console.log("Selected date:", newDate);
+  const handleDateSelect = (index) => {
+    setSelectedDate(daytime_slot[index]);
   };
 
   const handleTimeSelect = (time) => {
     console.log(time);
   };
 
+  const daytime_slot = ["20,Oct", "21,Oct", "22,Oct"];
+
   const modalContent = (
     <div className="modal">
       <div className="timeslot-choose-date">
-        <button
-          className={`timeslot ${selectedDate === "20,Oct" ? "selected" : ""}`}
-          onClick={() => handleDateSelect("20,Oct")}
-        >
-          20,Oct
-        </button>
-        <button
-          className={`timeslot ${selectedDate === "21,Oct" ? "selected" : ""}`}
-          onClick={() => handleDateSelect("21,Oct")}
-        >
-          21,Oct
-        </button>
-        <button
-          className={`timeslot ${selectedDate === "22,Oct" ? "selected" : ""}`}
-          onClick={() => handleDateSelect("22,Oct")}
-        >
-          22,Oct
-        </button>
+        {daytime_slot.map((day, index) => (
+          <button
+            key={index}
+            className={`timeslot ${selectedDate === day ? "selected" : ""}`}
+            onClick={() => handleDateSelect(index)}
+          >
+            {day}
+          </button>
+        ))}
       </div>
 
       <div className="timeslot-choose-container">

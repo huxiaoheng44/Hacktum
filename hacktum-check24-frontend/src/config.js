@@ -1,2 +1,2 @@
-const baseURL = "http://localhost:3000"; // change to env
+const baseURL = "http://localhost:3000";
 export default baseURL;
