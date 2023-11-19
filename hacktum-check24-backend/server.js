@@ -49,7 +49,7 @@ app.get("/craftsmen", async (req, res) => {
   const totalPages = Math.ceil(craftsmen.length / pageSize);
 
   return res.send({
-    craftsmen: paginatedCraftsmen.map(getMappedCraftsman),
+    craftsmen: paginatedCraftsmen, //.map(getMappedCraftsman),
     totalPage: totalPages,
   });
 });
