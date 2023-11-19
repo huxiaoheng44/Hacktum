@@ -32,7 +32,7 @@ const getMappedPostcode = (postcode) => ({
 const getMappedCraftsman = (craftsman) => ({
   id: craftsman.id,
   name: `${craftsman.first_name} ${craftsman.last_name}`,
-  rankingScore: craftsman.distance,
+  rankingScore: craftsman.rank,
 });
 
 const patchMappedCraftsman = (craftsman) => ({
@@ -41,16 +41,26 @@ const patchMappedCraftsman = (craftsman) => ({
   profileDescriptionScore: craftsman.profile_description_score,
 });
 
-const getCraftsmen = async (postalCode, page, pageSize) => {
+const getPostcode = async (postalCode) => {
+  const client = await getDatabaseClient();
+  const result = await client.query(
+    `SELECT lon, lat, ${COLUMNS_GROUP} FROM ${TABLENAME_POSTCODE} WHERE ${COLUMNS_POSTALCODE}='${postalCode}';`
+  );
+
+  client.release();
+  return result;
+};
+
+const getCraftsmen = async (postcode) => {
   const client = await getDatabaseClient();
 
   let result = await client.query(`SELECT * FROM ${TABLENAME_CRAFTMAN}`);
 
-  const postalCodeData = await client.query(
-    `SELECT lon, lat, ${COLUMNS_GROUP} FROM ${TABLENAME_POSTCODE} WHERE ${COLUMNS_POSTALCODE}='${postalCode}';`
-  );
+  // const postalCodeData = await client.query(
+  //   `SELECT lon, lat, ${COLUMNS_GROUP} FROM ${TABLENAME_POSTCODE} WHERE ${COLUMNS_POSTALCODE}='${postalCode}';`
+  // );
 
-  postcode = getMappedPostcode(postalCodeData.rows[0]);
+  // postcode = getMappedPostcode(postalCodeData.rows[0]);
 
   result.rows.forEach((row) => {
     const distance = calcaulateDistance(craftman(row), postcode);
@@ -113,6 +123,8 @@ const updateCraftsman = async (
 module.exports = {
   getMappedCraftsman,
   patchMappedCraftsman,
+  getMappedPostcode,
   getCraftsmen,
+  getPostcode,
   updateCraftsman,
 };

@@ -1,16 +1,15 @@
 const express = require("express");
 const app = express();
-// const mongoose = require("mongoose");
 const cors = require("cors");
 
 const {
-  getMappedCraftsman,
   patchMappedCraftsman,
+  getMappedPostcode,
   getCraftsmen,
+  getPostcode,
   updateCraftsman,
+  getMappedCraftsman,
 } = require("./craftsmen-service");
-
-const databaseName = "Hacktum-check24";
 
 app.use(express.json());
 app.use(cors());
@@ -38,18 +37,24 @@ app.get("/craftsmen", async (req, res) => {
   const startIndex = (page - 1) * pageSize;
   const endIndex = page * pageSize;
 
-  const craftsmen = await getCraftsmen(postalcode, page, pageSize);
+  const postcodes = await getPostcode(postalcode);
+  if (postcodes.rowCount == 0) {
+    return res.send({
+      message: "Invalid postal code",
+    });
+  }
+
+  const craftsmen = await getCraftsmen(getMappedPostcode(postcodes.rows[0]));
   const paginatedCraftsmen = craftsmen.slice(startIndex, endIndex);
   const totalPages = Math.ceil(craftsmen.length / pageSize);
 
   return res.send({
-    craftsmen: paginatedCraftsmen, //.map(getMappedCraftsman),
+    craftsmen: paginatedCraftsmen.map(getMappedCraftsman),
     totalPage: totalPages,
   });
 });
 
 app.patch("/craftman/:id", async (req, res) => {
-  // ideally should be validated & sanitzed.
   try {
     const id = req.params.id;
 
@@ -77,7 +82,7 @@ app.patch("/craftman/:id", async (req, res) => {
 });
 
 // start the server
-const port = process.env["SERVER_PORT"] || 3000;
+const port = process.env["SERVER_PORT"] || 3001;
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
