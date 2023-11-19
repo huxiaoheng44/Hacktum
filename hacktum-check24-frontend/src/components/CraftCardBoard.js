@@ -62,7 +62,7 @@ const CraftcardBoard = (props) => {
                 id={craftsman.id}
                 name={craftsman.name}
                 rankingScore={craftsman.rankingScore}
-                distance={craftsman.distance}
+                distance={(craftsman.distance / 1000).toFixed(1)}
                 onShowModal={handleShowModal}
                 onCloseModal={handleCloseModal}
               />
