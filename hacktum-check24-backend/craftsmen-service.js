@@ -33,6 +33,12 @@ const getMappedCraftsman = (craftsman) => ({
   id: craftsman.id,
   name: `${craftsman.first_name} ${craftsman.last_name}`,
   rankingScore: craftsman.rankingScore,
+  distance: craftsman.distance,
+  city: craftsman.city,
+  street: craftsman.street,
+  houseNumber: craftsman.house_number,
+  profileDescriptionScore: craftsman.profile_description_score,
+  profilePictureScore: craftsman.profile_picture_score,
 });
 
 const patchMappedCraftsman = (craftsman) => ({
