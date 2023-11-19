@@ -76,7 +76,9 @@ const getCraftsmen = async (postcode) => {
     row.rankingScore = rankingScore;
   });
 
-  sortedResult = validResult.sort(({ rank: a }, { rank: b }) => b - a);
+  sortedResult = validResult.sort(
+    ({ rankingScore: a }, { rankingScore: b }) => b - a
+  );
 
   client.release();
 

@@ -61,7 +61,7 @@ const CraftcardBoard = (props) => {
               <CraftCard
                 id={craftsman.id}
                 name={craftsman.name}
-                rankingScore={craftsman.rankingScore}
+                rankingScore={Number(craftsman.profilePictureScore)}
                 distance={(craftsman.distance / 1000).toFixed(1)}
                 onShowModal={handleShowModal}
                 onCloseModal={handleCloseModal}
