@@ -6,7 +6,6 @@ import "./SearchResultsPage.css";
 
 function SearchResultsPage() {
   const [searchParams] = useSearchParams();
-  const [craftsmen, setCraftsmen] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [pagesData, setPagesData] = useState([]);
@@ -15,16 +14,16 @@ function SearchResultsPage() {
   useEffect(() => {
     const query = searchParams.get("query");
     if (query) {
-      fetchResults(query);
+      fetchResults(query, currentPage);
     }
-  }, [searchParams]);
+  }, [searchParams, currentPage]);
 
-  const fetchResults = (query) => {
+  const fetchResults = (query, page) => {
     setLoading(true);
     fetch(
       `${baseURL}/craftsmen?postalcode=${encodeURIComponent(
         query
-      )}&page=${currentPage}`
+      )}&page=${page}`
     )
       .then((response) => {
         if (!response.ok) {
@@ -33,12 +32,7 @@ function SearchResultsPage() {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
-        setPagesData((prevPagesData) => [
-          ...prevPagesData,
-          data.craftsmen.craftsmen,
-        ]);
-        //setCraftsmen(data.craftsmen.craftsmen);
+        setPagesData((prevPagesData) => [...prevPagesData, ...data.craftsmen]);
       })
       .catch((error) => {
         setError(error.message);
@@ -48,17 +42,17 @@ function SearchResultsPage() {
       });
   };
 
-  // if (loading) {
-  //   return <div>Loading...</div>;
-  // }
-
-  // if (error) {
-  //   return <div>Error: {error}</div>;
-  // }
-
   const handleLoadMore = () => {
-    setCurrentPage((currentPage) => currentPage + 1);
+    setCurrentPage((prevPage) => prevPage + 1);
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <div className="resultpage-container">
@@ -72,20 +66,11 @@ function SearchResultsPage() {
           </button>
           <button className="navBar-button">⭐</button>
         </div>
-        {/* <div className="navBar-bottom">
-          <button id="commentFilter">Comments</button>
-          <button id="distanceFilter">Distance</button>
-          <button id="ratingFilter">Rating</button>
-        </div> */}
       </div>
-      {pagesData.map((craftsmenData, index) => (
-        <div key={index} className="search-result-container">
-          <CraftcardBoard craftsmen={craftsmenData} />
-        </div>
-      ))}
-      {/* <div className="search-result-container">
-        <CraftcardBoard craftsmen={craftsmen} />
-      </div> */}
+
+      <div className="search-result-container">
+        <CraftcardBoard craftsmen={pagesData} />
+      </div>
       <div className="load-more" onClick={handleLoadMore}>
         Load More
       </div>

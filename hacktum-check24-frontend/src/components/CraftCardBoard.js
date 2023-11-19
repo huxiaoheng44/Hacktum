@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import CraftCard from "../components/CraftCard";
 import { Responsive, WidthProvider } from "react-grid-layout";
-import TimeSlotPicker from "./TimeSlotPicker";
 import { createPortal } from "react-dom";
 
 import "./CraftCardBoard.css";
