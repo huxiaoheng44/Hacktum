@@ -27,7 +27,7 @@ const CraftcardBoard = (props) => {
 
   const craftsmen = props.craftsmen;
 
-  const cols = { lg: 12, md: 8, sm: 8, xs: 8, xxs: 4 };
+  const cols = { lg: 8, md: 8, sm: 8, xs: 8, xxs: 4 };
 
   const genLayouts = {
     lg: generatedLayout(craftsmen, cols.lg),
