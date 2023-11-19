@@ -11,14 +11,14 @@ function SearchResultsPage() {
   const [pagesData, setPagesData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 
-  useEffect(() => {
-    const query = searchParams.get("query");
-    if (query) {
-      fetchResults(query, currentPage);
-    }
-  }, [searchParams, currentPage]);
+  const [message, setMessage] = useState("");
 
-  const fetchResults = (query, page) => {
+  useEffect(() => {
+    fetchResults(currentPage);
+  }, [currentPage]);
+
+  const fetchResults = (page) => {
+    const query = searchParams.get("query");
     setLoading(true);
     fetch(
       `${baseURL}/craftsmen?postalcode=${encodeURIComponent(
@@ -32,7 +32,13 @@ function SearchResultsPage() {
         return response.json();
       })
       .then((data) => {
-        setPagesData((prevPagesData) => [...prevPagesData, ...data.craftsmen]);
+        console.log(data);
+        if (data.message && data.message === "Invalid postal code") {
+          setMessage("Invalid postal code");
+        } else {
+          setPagesData((prevPagesData) => [...prevPagesData, data.craftsmen]);
+          setMessage("Load More");
+        }
       })
       .catch((error) => {
         setError(error.message);
@@ -43,15 +49,16 @@ function SearchResultsPage() {
   };
 
   const handleLoadMore = () => {
-    setCurrentPage((prevPage) => prevPage + 1);
+    const nextPage = currentPage + 1;
+    setCurrentPage(nextPage);
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="load-more">Loading...</div>;
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return <div className="load-more">Error: {error}</div>;
   }
 
   return (
@@ -68,11 +75,14 @@ function SearchResultsPage() {
         </div>
       </div>
 
-      <div className="search-result-container">
-        <CraftcardBoard craftsmen={pagesData} />
-      </div>
+      {pagesData.map((craftsmen, index) => (
+        <div key={index} className="search-result-container">
+          <CraftcardBoard craftsmen={craftsmen} />
+        </div>
+      ))}
+
       <div className="load-more" onClick={handleLoadMore}>
-        Load More
+        {message}
       </div>
     </div>
   );

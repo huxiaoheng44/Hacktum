@@ -72,7 +72,12 @@ const CraftCard = (props) => {
             <div className="craftCard-name">{props.name} </div>
             <div className="craftCard-rank">
               <div className="small-title">Rank:</div>
-              <div className="rank-score">{props.rankingScore} ⭐</div>
+              <div className="rank-score">
+                {typeof props.rankingScore === "number"
+                  ? props.rankingScore.toFixed(1)
+                  : "N/A"}{" "}
+                ⭐
+              </div>
             </div>
           </div>
           <div className="craftCard-details">

@@ -27,7 +27,7 @@ const CraftcardBoard = (props) => {
 
   const craftsmen = props.craftsmen;
 
-  const cols = { lg: 12, md: 9, sm: 6, xs: 4, xxs: 4 };
+  const cols = { lg: 12, md: 8, sm: 8, xs: 8, xxs: 4 };
 
   const genLayouts = {
     lg: generatedLayout(craftsmen, cols.lg),
@@ -50,7 +50,7 @@ const CraftcardBoard = (props) => {
       <ResponsiveGridLayout
         className="gridlayout"
         layouts={genLayouts}
-        breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
+        breakpoints={{ lg: 1200, md: 996, sm: 900, xs: 780, xxs: 0 }}
         cols={cols}
         margin={margin}
         rowHeight={40}
@@ -84,7 +84,7 @@ function generatedLayout(craftsmen, col_num) {
     setW = 4;
   } else if (col_num === 9 || col_num === 6 || col_num === 3) {
     setW = 3;
-  } else if (col_num === 4) {
+  } else if (col_num === 8 || col_num === 4) {
     setW = 4;
   }
 
