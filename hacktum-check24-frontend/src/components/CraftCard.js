@@ -83,7 +83,14 @@ const CraftCard = (props) => {
           <div className="craftCard-details">
             <span className="craftCard-distance">
               <div className="small-title">📍 Distance</div>
-              <div className="distance-number">{randomDistance()}</div>
+              <div className="distance-number">
+                {" "}
+                <div>
+                  {props.distance !== null && props.distance !== undefined
+                    ? props.distance
+                    : randomDistance()}
+                </div>
+              </div>
               <div className="small-title">km</div>
             </span>
             <span className="craftCard-bookings">
