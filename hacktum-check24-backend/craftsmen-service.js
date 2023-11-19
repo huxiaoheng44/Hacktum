@@ -50,8 +50,6 @@ const getCraftsmen = async (postalCode, page, pageSize) => {
     `SELECT lon, lat, ${COLUMNS_GROUP} FROM ${TABLENAME_POSTCODE} WHERE ${COLUMNS_POSTALCODE}='${postalCode}';`
   );
 
-  client.release();
-
   postcode = getMappedPostcode(postalCodeData.rows[0]);
 
   result.rows.forEach((row) => {
@@ -69,6 +67,8 @@ const getCraftsmen = async (postalCode, page, pageSize) => {
   });
 
   sortedResult = validResult.sort(({ rank: a }, { rank: b }) => b - a);
+
+  client.release();
 
   return sortedResult;
 };

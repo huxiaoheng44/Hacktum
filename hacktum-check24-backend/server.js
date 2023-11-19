@@ -2,7 +2,6 @@ const express = require("express");
 const app = express();
 // const mongoose = require("mongoose");
 const cors = require("cors");
-const api = require("./api.js");
 
 const {
   getMappedCraftsman,
@@ -13,23 +12,8 @@ const {
 
 const databaseName = "Hacktum-check24";
 
-const options = {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  dbName: databaseName,
-};
-
 app.use(express.json());
 app.use(cors());
-// app.use("/api", api); // TODO
-//app.use("/craftman", validateUpdateCraftsman);
-
-// const dataSchema = new mongoose.Schema({
-//   id: Number,
-//   name: String,
-//   postalCode: String,
-//   // rankingScore: String,
-// });
 
 // server error handle
 app.use((err, req, res, next) => {
