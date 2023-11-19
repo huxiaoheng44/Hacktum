@@ -32,7 +32,7 @@ const getMappedPostcode = (postcode) => ({
 const getMappedCraftsman = (craftsman) => ({
   id: craftsman.id,
   name: `${craftsman.first_name} ${craftsman.last_name}`,
-  rankingScore: craftsman.rank,
+  rankingScore: craftsman.rankingScore,
 });
 
 const patchMappedCraftsman = (craftsman) => ({
@@ -56,12 +56,6 @@ const getCraftsmen = async (postcode) => {
 
   let result = await client.query(`SELECT * FROM ${TABLENAME_CRAFTMAN}`);
 
-  // const postalCodeData = await client.query(
-  //   `SELECT lon, lat, ${COLUMNS_GROUP} FROM ${TABLENAME_POSTCODE} WHERE ${COLUMNS_POSTALCODE}='${postalCode}';`
-  // );
-
-  // postcode = getMappedPostcode(postalCodeData.rows[0]);
-
   result.rows.forEach((row) => {
     const distance = calcaulateDistance(craftman(row), postcode);
     row.distance = distance;
@@ -72,8 +66,8 @@ const getCraftsmen = async (postcode) => {
   );
 
   validResult.forEach((row) => {
-    const rank = calcaulateRank(craftman(row));
-    row.rank = rank;
+    const rankingScore = calcaulateRank(craftman(row));
+    row.rankingScore = rankingScore;
   });
 
   sortedResult = validResult.sort(({ rank: a }, { rank: b }) => b - a);

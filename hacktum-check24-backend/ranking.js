@@ -25,7 +25,7 @@ function isWithinRange(provider, postcode) {
 }
 
 function calcaulateRank(provider) {
-  const DEFAULT_DIST = 80;
+  const DEFAULT_DIST = 80 * KILO_TO_METER;
 
   let descScore = provider.descScore;
   let picScore = provider.picScore;
